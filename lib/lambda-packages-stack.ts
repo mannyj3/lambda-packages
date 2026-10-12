@@ -48,7 +48,6 @@ export class LambdaPackagesStack extends cdk.Stack {
         bundling: {
           image: lambda.Runtime.PYTHON_3_13.bundlingImage,
           local: new PipInstallForLayer(),
-          // Only used if local bundling fails and Docker is installed
           command: [
             'bash', '-c',
             'pip install -r requirements.txt -t /asset-output/python',
@@ -75,10 +74,9 @@ export class LambdaPackagesStack extends cdk.Stack {
       restApiName: 'lambda-packages-api',
     });
     const packages = api.root.addResource('packages');
-    packages.addMethod('POST'); // body: {"text": "..."}
-    packages.addMethod('GET');  // ?text=...
+    packages.addMethod('POST');
+    packages.addMethod('GET');
 
-    // Printed in the terminal after deploy - paste this into Postman
     new cdk.CfnOutput(this, 'PackagesUrl', { value: `${api.url}packages` });
     new cdk.CfnOutput(this, 'LayerArn', { value: packagesLayer.layerVersionArn });
   }

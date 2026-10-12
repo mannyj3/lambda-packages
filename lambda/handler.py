@@ -2,7 +2,7 @@ import base64
 import json
 from importlib import metadata
 
-# The 3 packages come from the Lambda Layer (mounted at /opt/python)
+
 import emoji
 import requests
 from slugify import slugify
